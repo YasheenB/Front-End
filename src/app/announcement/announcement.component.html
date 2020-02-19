@@ -1,0 +1,141 @@
+<app-toolbar></app-toolbar>
+<head>
+    <title>Announcement</title>
+ </head>
+ <body>
+     <button class="singleFunction" mat-raised-button color="primary" target="Create" (click)="getListOfFaculties()">Create Announcement</button>
+     <button class="singleFunction" mat-raised-button color="primary" target="Read">Read Announcement</button>
+     <div id="functionCreate" class="targetFunction">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Announcement Date</mat-label>
+              <input matInput required type="date" #dateOfAnnouncement>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Announcement Subject</mat-label>
+                <textarea matInput required #subjectOfAnnouncement></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Announcement Body</mat-label>
+                <textarea matInput required #bodyOfAnnouncement></textarea>
+            </mat-form-field>
+            
+            <mat-form-field class="example-full-width">
+              <mat-label>Faculty</mat-label>
+              <mat-select required id="organization">
+                <mat-option *ngFor="let Faculty of listOfFaculties" value="Faculty.ID" (click)="findFacultyID(Faculty.ID)">
+                  {{Faculty.Name}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+        </form>
+        <button  mat-raised-button color="primary" (click)="createAnnouncement(dateOfAnnouncement.value,subjectOfAnnouncement.value,bodyOfAnnouncement.value)">Create Announcement</button>
+        <button  mat-raised-button class="leftMove" color="primary" >Cancel</button>
+     </div>
+
+    <div id="functionRead" class="targetFunction">
+        <table mat-table class="mat-elevation-z8" [dataSource]="listOfAnnouncements" >
+
+            <ng-container matColumnDef="AnnouncementID">
+              <th mat-header-cell *matHeaderCellDef> Announcement ID </th>
+              <td mat-cell *matCellDef="let announcement"> {{announcement.ID}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="AnnouncementDate">
+              <th mat-header-cell *matHeaderCellDef> Announcement Date </th>
+              <td mat-cell *matCellDef="let announcement"> {{announcement.Date}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="AnnouncementSubject">
+              <th mat-header-cell *matHeaderCellDef> Annuncement Subject </th>
+              <td mat-cell *matCellDef="let announcement"> {{announcement.Subject}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="AnnouncementBody">
+                <th mat-header-cell *matHeaderCellDef> Announcement Body </th>
+                <td mat-cell *matCellDef="let announcement"> {{announcement.Body}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="FacultyID">
+                <th mat-header-cell *matHeaderCellDef> Faculty ID </th>
+                <td mat-cell *matCellDef="let announcement"> {{announcement.FacultyID}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Update">
+                <th mat-header-cell *matHeaderCellDef> Update </th>
+                <td mat-cell *matCellDef="let announcement"> 
+                  <button class="singleFunction" mat-raised-button color="accent" (click)="GetAnnouncementToUpdateOrDelete(announcement.ID)" target="Update">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">update</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Delete">
+                <th mat-header-cell *matHeaderCellDef> Delete </th>
+                <td mat-cell *matCellDef="let announcement">
+                  <button class="singleFunction" mat-raised-button color="warn" (click)="GetAnnouncementToUpdateOrDelete(announcement.ID)" target="Delete">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">delete_outline</mat-icon>
+                  </button>           
+                </td>
+              </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+    </div>
+    <div id="functionUpdate" class="targetFunction">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Announcement Date</mat-label>
+              <input matInput required type="date" #updatedDate [(ngModel)]="currentAnnuncementDate" name="updateDate" >
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Announcement Subject</mat-label>
+                <textarea matInput required #updatedSubject [(ngModel)]="currentAnnouncementSubject" name="updateSubject" ></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Announcement Body</mat-label>
+                <textarea matInput required #updatedBody [(ngModel)]="currentAnnouncementBody" name="updateBody" ></textarea>
+            </mat-form-field>
+            
+            <mat-form-field class="example-full-width">
+              <mat-label>Faculty</mat-label>
+              <mat-select required id="organization">
+                <mat-option *ngFor="let Faculty of listOfFaculties" value="Faculty.ID" (click)="findFacultyID(Faculty.ID)">
+                  {{Faculty.Name}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+        </form>
+        <button  mat-raised-button color="primary" (click)="updateAnnouncement(updatedDate.value,updatedSubject.value,updatedBody.value,announcememtToModifyID)">Update Announcement</button>
+        <button  mat-raised-button class="leftMove" color="primary" >Cancel</button>
+    </div>
+    <div id="functionDelete" class="targetFunction">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Announcement Date</mat-label>
+              <input matInput  type="date" disabled [(ngModel)]="currentAnnuncementDate" name="deleteDate">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Announcement Subject</mat-label>
+                <textarea matInput  disabled [(ngModel)]="currentAnnouncementSubject" name="deleteSubject"> </textarea>
+            </mat-form-field >
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Announcement Body</mat-label>
+                <textarea matInput  disabled [(ngModel)]="currentAnnouncementBody" name="deleteBody"></textarea>
+            </mat-form-field>
+            
+            <mat-form-field class="example-full-width">
+                <mat-label>Faculty</mat-label>
+                <input matInput  type="text" disabled [(ngModel)]="facultyName" name="deleteFaculty">
+            </mat-form-field>
+        </form>
+        <button  mat-raised-button color="primary" (click)="deleteAnnouncement(announcememtToModifyID)" >Delete Announcement</button>
+        <button  mat-raised-button class="leftMove" color="primary" >Cancel</button>
+    </div>
+ </body>

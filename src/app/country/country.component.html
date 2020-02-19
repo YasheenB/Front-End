@@ -1,0 +1,95 @@
+<app-toolbar></app-toolbar>
+<head>
+    <title>Announcement</title>
+ </head>
+ <body>
+     <button class="singleFunction" mat-raised-button color="primary" target="Create">Create Country</button>
+     <button class="singleFunction" mat-raised-button color="primary" target="Read">Read Country</button>
+
+     <div id="functionCreate" class="targetFunction">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Country Name</mat-label>
+              <input matInput type="text" #countryName required>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Population</mat-label>
+                <input matInput type="number" #countryPopulation required>
+            </mat-form-field>
+        </form>
+        <button  mat-raised-button color="primary" (click)="CreateCountry(countryName.value,countryPopulation.value)">Create Country</button>
+        <button  mat-raised-button class="moveButtonRegisterLeft" color="primary" >Cancel</button>
+     </div>
+     
+     <div id="functionRead" class="targetFunction">
+        <table mat-table class="mat-elevation-z8" [dataSource]="listOfCountries" >
+            
+            <ng-container matColumnDef="CountryID">
+              <th mat-header-cell *matHeaderCellDef> No. </th>
+              <td mat-cell *matCellDef="let country"> {{country.countryID}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="CountryName">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let country"> {{country.Name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CountryPopulation">
+              <th mat-header-cell *matHeaderCellDef> Population </th>
+              <td mat-cell *matCellDef="let country"> {{country.Population }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Update">
+              <th mat-header-cell *matHeaderCellDef> Update </th>
+              <td mat-cell *matCellDef="let country"> 
+                <button class="singleFunction" mat-raised-button color="accent" (click)="getCountryToUpdateOrDelete(country.countryID)" target="Update">
+                  <mat-icon aria-hidden="false" aria-label="Example home icon">update</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Delete">
+              <th mat-header-cell *matHeaderCellDef> Delete </th>
+              <td mat-cell *matCellDef="let country">
+                <button class="singleFunction" mat-raised-button color="warn" (click)="getCountryToUpdateOrDelete(country.countryID)" target="Delete">
+                  <mat-icon aria-hidden="false" aria-label="Example home icon">delete_outline</mat-icon>
+                </button>           
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+    </div>
+
+    <div id="functionUpdate" class="targetFunction">
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Country Name</mat-label>
+                  <input matInput type="text" required #updatedCountryName [(ngModel)]="currentNameOfCountry" name="updatedNameOfCountry">
+                </mat-form-field>
+    
+                <mat-form-field class="example-full-width">
+                    <mat-label>Population</mat-label>
+                    <input matInput  required type="number" #updatedCountryPopulation [(ngModel)]="currentPopulation" name="updatedPoplation">
+                </mat-form-field>
+            </form>
+            <button  mat-raised-button color="primary" (click)="updateCountry(updatedCountryName.value,updatedCountryPopulation.value,idOfCountryToModify)">Update Country</button>
+            <button  mat-raised-button class="moveButtonRegisterLeft" color="primary" >Cancel</button>
+    </div>
+    <div id="functionDelete" class="targetFunction">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Country Name</mat-label>
+              <input matInput  type="text" disabled [(ngModel)]="currentNameOfCountry" name="updatedNameOfCountry">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Population</mat-label>
+                <input matInput  type="number" disabled #updatedCountryPopulation [(ngModel)]="currentPopulation" name="deleteName">
+            </mat-form-field>
+        </form>
+        <button  mat-raised-button color="primary" (click)="deleteCountry(idOfCountryToModify)" >Delete Country</button>
+        <button  mat-raised-button class="moveButtonRegisterLeft" color="primary" >Cancel</button>
+    </div>
+ </body>

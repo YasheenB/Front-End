@@ -1,0 +1,18 @@
+<mat-toolbar color="primary" >  
+  <mat-toolbar-row>
+    <mat-label>World Universities</mat-label>
+  </mat-toolbar-row>
+</mat-toolbar>
+<h1>Welcome to World Universities</h1>
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" #username required >
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" #password required>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="Login(username.value,password.value)">Sign In </button>
+    <button mat-raised-button color="primary" class="moveButtonRegisterLeft" routerLink="/RegisterUser">Need An Account? </button>
+</form>

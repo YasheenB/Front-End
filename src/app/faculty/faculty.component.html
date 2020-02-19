@@ -1,0 +1,120 @@
+<app-toolbar></app-toolbar>
+<head>
+    <title>Announcement</title>
+ </head>
+ <body>
+     <button class="singleFunction" mat-raised-button color="primary" target="Create" (click)="getListOfFaculties()">Create Faculty</button>
+     <button class="singleFunction" mat-raised-button color="primary" target="Read">Read Faculty</button>
+
+     <div id="functionCreate" class="targetFunction">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Faculty Name</mat-label>
+              <input matInput required #facultyName>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Description of Faculty</mat-label>
+                <textarea matInput required #facultyDescription></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>University</mat-label>
+              <mat-select required>
+                <mat-option *ngFor="let university of listOfUniversities" value="university.ID" (click)="findUniversityID(university.ID)">
+                  {{university.Name}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+        </form>
+        <button  mat-raised-button color="primary" (click)="createFaculty(facultyName.value,facultyDescription.value)">Create Faculty</button>
+        <button  mat-raised-button class="moveButtonRegisterLeft" color="primary" >Cancel</button>
+     </div>
+     <div id="functionRead" class="targetFunction">
+        <table mat-table class="mat-elevation-z8" [dataSource]="listOfFaculties" >
+
+            <ng-container matColumnDef="FacultyID">
+              <th mat-header-cell *matHeaderCellDef> Faculty ID </th>
+              <td mat-cell *matCellDef="let faculty"> {{faculty.ID}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="FacultyName">
+              <th mat-header-cell *matHeaderCellDef> Faculty Name </th>
+              <td mat-cell *matCellDef="let faculty"> {{faculty.Name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FacultyDescription">
+              <th mat-header-cell *matHeaderCellDef> Faculty Description </th>
+              <td mat-cell *matCellDef="let faculty"> {{faculty.Description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="UniversityID">
+                <th mat-header-cell *matHeaderCellDef> Univdersity ID </th>
+                <td mat-cell *matCellDef="let faculty"> {{faculty.UniversityID}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Update">
+                <th mat-header-cell *matHeaderCellDef> Update </th>
+                <td mat-cell *matCellDef="let faculty"> 
+                  <button class="singleFunction" mat-raised-button color="accent" (click)="getFacultyToUpdateOrDelete(faculty.ID)" target="Update">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">update</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="Delete">
+                <th mat-header-cell *matHeaderCellDef> Delete </th>
+                <td mat-cell *matCellDef="let faculty">
+                  <button class="singleFunction" mat-raised-button color="warn" (click)="getFacultyToUpdateOrDelete(faculty.ID)" target="Delete">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">delete_outline</mat-icon>
+                  </button>           
+                </td>
+              </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+    </div>
+    <div id="functionUpdate" class="targetFunction">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Faculty Name</mat-label>
+              <input matInput required #updatedName [ngModel] ="currentFacultyName" name="updateFacultyName">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Description of Faculty</mat-label>
+                <textarea matInput required #updatedDescription [ngModel] ="currentFacultyDescription" name="updateFacultyDescription"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>University</mat-label>
+              <mat-select required id="organization">
+                <mat-option *ngFor="let university of listOfUniversities" value="university.ID" (click)="findUniversityID(university.ID)">
+                  {{university.Name}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+        </form>
+        <button  mat-raised-button color="primary"(click)="updateFaculty(updatedName.value,updatedDescription.value,facultyIDToModify)" >Update Faculty</button>
+        <button  mat-raised-button class="moveButtonRegisterLeft" color="primary" >Cancel</button>
+    </div>
+    <div id="functionDelete" class="targetFunction">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Faculty Name</mat-label>
+              <input matInput  disabled [ngModel] ="currentFacultyName" name="deleteFacultyName">
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Description of Faculty</mat-label>
+                <textarea matInput  disabled [ngModel] ="currentFacultyDescription" name="deleteFacultyDescription"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>University</mat-label>
+                <textarea matInput  disabled [ngModel] ="currentUniverstyName" name="deleteCurrentUniversity"></textarea>
+            </mat-form-field>
+        </form>
+        <button  mat-raised-button color="primary" (click)="deleteFaculty(facultyIDToModify)">Delete Faculty</button>
+        <button  mat-raised-button class="moveButtonRegisterLeft" color="primary" >Cancel</button>
+    </div>
+ </body>

@@ -1,0 +1,21 @@
+
+<mat-toolbar color="primary" >  
+    <mat-toolbar-row>
+      <button mat-button [matMenuTriggerFor]="menu"> <mat-icon>menu_open</mat-icon> World Universities Menu</button>
+    </mat-toolbar-row>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/Country">Country</button>
+        <button mat-menu-item routerLink="/University">University</button>
+        <button mat-menu-item routerLink="/Faculty">Faculty</button>
+        <button mat-menu-item routerLink="/Announcement">Announcement</button>
+        <button mat-menu-item routerLink="/Student">Student</button>
+     <button mat-menu-item routerLink="/LoginWorldUniversities" color="warn"> 
+      Exit <mat-icon aria-hidden="false" aria-label="Example home icon">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+ 
+    
